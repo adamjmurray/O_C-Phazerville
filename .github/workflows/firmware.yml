@@ -10,20 +10,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Setup env
       run: |
         echo "OC_ARTIFACT_TAG=${GITHUB_REF_NAME}-$(sh software/res/oc_build_tag.sh)" | tr '/' '_' >> $GITHUB_ENV
 
     - name: Cache PlatformIO
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.platformio
         key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
 
     - name: Set up Python
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v5
       with:
         python-version: '3.x'
         cache: 'pip'
@@ -39,7 +39,7 @@ jobs:
         pio run
 
     - name: Copy artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: o_C-${{env.OC_ARTIFACT_TAG}}
         path: software/.pio/build/*/*.hex
